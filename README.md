@@ -47,4 +47,22 @@ grep "###" -A 5 /etc/ufw/user.rules
 adduser agent-admin
 adduser agent-dev
 adduser agent-test
+
+groupadd agent-common
+groupadd agent-core
+
+usermod -aG agent-common agent-admin
+usermod -aG agent-common agent-dev
+usermod -aG agent-common agent-test
+
+usermod -aG agent-core agent-admin
+usermod -aG agent-core agent-dev
+
+id agent-admin
+uid=1000(agent-admin) gid=1000(agent-admin) groups=1000(agent-admin),1003(agent-common),1004(agent-core)
+
+id agent-test
+uid=1002(agent-test) gid=1002(agent-test) groups=1002(agent-test),1003(agent-common)
+
+
 ```
