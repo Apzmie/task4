@@ -8,3 +8,15 @@
 - [ ] monitor.sh 실행 결과(프로세스/포트/리소스/경고) 내역
 - [ ] /var/log/agent-app/monitor.log 누적 기록 확인(최근 라인) 내역
 - [ ] crontab 매분 실행 등록 및 자동 실행 확인(1분 후 로그 증가) 내역
+
+## 1
+```bash
+docker run -d --name linux-mission -p 20022:20022 -p 15034:15034 ubuntu:22.04 sleep infinity
+docker exec -it linux-mission /bin/bash
+apt update && apt install -y nano ssh ufw systemctl iproute2 net-tools
+
+nano /etc/ssh/sshd_config
+Port 22 -> 20022. PermitRootLogin prohibit-password -> no
+service ssh start
+
+```
