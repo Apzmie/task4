@@ -25,4 +25,15 @@ tcp   LISTEN 0      128             [::]:20022         [::]:*    users:(("sshd",
 
 grep "PermitRootLogin" /etc/ssh/sshd_config
 PermitRootLogin no
+
+ufw allow 20022/tcp
+ufw allow 15034/tcp
+ufw enable
+(Permission denied)
+
+grep "###" -A 5 /etc/ufw/user.rules
+### tuple ### allow tcp 20022 0.0.0.0/0 any 0.0.0.0/0 in
+-A ufw-user-input -p tcp --dport 20022 -j ACCEPT
+### tuple ### allow tcp 15034 0.0.0.0/0 any 0.0.0.0/0 in
+-A ufw-user-input -p tcp --dport 15034 -j ACCEPT
 ```
