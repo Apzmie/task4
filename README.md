@@ -2,8 +2,8 @@
 
 - [x] SSH 포트 변경(20022) 및 Root 원격 접속 차단 설정 확인 내역
 - [x] 방화벽(UFW 또는 firewalld) 활성화 및 20022/tcp, 15034/tcp만 허용 내역
-- [ ] 계정/그룹(agent-admin/dev/test, agent-common/core) 생성 확인 내역
-- [ ] 디렉토리 구조 및 권한(ACL 포함) 확인 내역
+- [x] 계정/그룹(agent-admin/dev/test, agent-common/core) 생성 확인 내역
+- [x] 디렉토리 구조 및 권한(ACL 포함) 확인 내역
 - [ ] 앱 Boot Sequence 5단계 [OK] 및 “Agent READY” 확인 내역
 - [ ] monitor.sh 실행 결과(프로세스/포트/리소스/경고) 내역
 - [ ] /var/log/agent-app/monitor.log 누적 기록 확인(최근 라인) 내역
@@ -13,7 +13,7 @@
 ```bash
 docker run -d --name linux-mission -p 20022:20022 -p 15034:15034 ubuntu:22.04 sleep infinity
 docker exec -it linux-mission /bin/bash
-apt update && apt install -y nano ssh ufw systemctl iproute2 net-tools
+apt update && apt install -y nano ssh ufw systemctl iproute2 net-tools acl
 
 nano /etc/ssh/sshd_config
 Port 22 -> Port 20022, PermitRootLogin prohibit-password -> PermitRootLogin no
@@ -63,6 +63,39 @@ uid=1000(agent-admin) gid=1000(agent-admin) groups=1000(agent-admin),1003(agent-
 
 id agent-test
 uid=1002(agent-test) gid=1002(agent-test) groups=1002(agent-test),1003(agent-common)
+```
 
+## 4
+```bash
+mkdir -p /home/agent-admin/upload_files
+mkdir -p /home/agent-admin/api_keys
+mkdir -p /var/log/agent-app
+
+chgrp agent-common /home/agent-admin/upload_files
+chgrp agent-core /home/agent-admin/api_keys
+chgrp agent-core /var/log/agent-app
+
+chmod 770 /home/agent-admin/upload_files
+chmod 770 /home/agent-admin/api_keys
+chmod 770 /var/log/agent-app
+
+getfacl /home/agent-admin/upload_files
+getfacl: Removing leading '/' from absolute path names
+# file: home/agent-admin/upload_files
+# owner: root
+# group: agent-common
+user::rwx
+group::rwx
+other::---
+
+ls -ld /home/agent-admin/api_keys
+drwxrwx--- 1 root agent-core 0 May 11 06:39 /home/agent-admin/api_keys
+
+ls -ld /var/log/agent-app
+drwxrwx--- 1 root agent-core 0 May 11 06:39 /var/log/agent-app
+```
+
+## 5
+```bash
 
 ```
