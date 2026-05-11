@@ -16,9 +16,8 @@ docker exec -it linux-mission /bin/bash
 apt update && apt install -y nano ssh ufw systemctl iproute2 net-tools
 
 nano /etc/ssh/sshd_config
-Port 22 -> 20022. PermitRootLogin prohibit-password -> no
+Port 22 -> Port 20022, PermitRootLogin prohibit-password -> PermitRootLogin no
 service ssh start
-
 grep "Port" /etc/ssh/sshd_config
 Port 20022
 grep "PermitRootLogin" /etc/ssh/sshd_config
