@@ -18,8 +18,11 @@ apt update && apt install -y nano ssh ufw systemctl iproute2 net-tools
 nano /etc/ssh/sshd_config
 Port 22 -> Port 20022, PermitRootLogin prohibit-password -> PermitRootLogin no
 service ssh start
-grep "Port" /etc/ssh/sshd_config
-Port 20022
+
+ss -tulnp | grep sshd
+tcp   LISTEN 0      128          0.0.0.0:20022      0.0.0.0:*    users:(("sshd",pid=3948,fd=3))
+tcp   LISTEN 0      128             [::]:20022         [::]:*    users:(("sshd",pid=3948,fd=4))
+
 grep "PermitRootLogin" /etc/ssh/sshd_config
 PermitRootLogin no
 ```
