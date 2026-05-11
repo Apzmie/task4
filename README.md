@@ -96,9 +96,9 @@ drwxrwx--- 1 root agent-core 0 May 11 06:39 /var/log/agent-app
 ```
 
 ## 5
+```bash
 mkdir -p /home/agent-admin/agent-app/
 
-```bash
 cat <<EOF > /etc/profile.d/agent_env.sh
 export AGENT_HOME=/home/agent-admin/agent-app
 export AGENT_PORT=15034
