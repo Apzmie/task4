@@ -97,5 +97,16 @@ drwxrwx--- 1 root agent-core 0 May 11 06:39 /var/log/agent-app
 
 ## 5
 ```bash
+cat <<EOF > /etc/profile.d/agent_env.sh
+export AGENT_HOME=/home/agent-admin/agent-app
+export AGENT_PORT=15034
+export AGENT_UPLOAD_DIR=\$AGENT_HOME/upload_files
+export AGENT_KEY_PATH=\$AGENT_HOME/api_keys/t_secret.key
+export AGENT_LOG_DIR=/var/log/agent-app
+EOF
 
+source /etc/profile.d/agent_env.sh
+
+echo $AGENT_PORT
+15034
 ```
