@@ -29,6 +29,7 @@ PermitRootLogin no
 ufw allow 20022/tcp
 ufw allow 15034/tcp
 ufw enable
+ufw status
 (Permission denied)
 
 grep "###" -A 5 /etc/ufw/user.rules
