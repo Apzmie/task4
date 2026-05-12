@@ -4,7 +4,7 @@
 - [x] 방화벽(UFW 또는 firewalld) 활성화 및 20022/tcp, 15034/tcp만 허용 내역
 - [x] 계정/그룹(agent-admin/dev/test, agent-common/core) 생성 확인 내역
 - [x] 디렉토리 구조 및 권한(ACL 포함) 확인 내역
-- [ ] 앱 Boot Sequence 5단계 [OK] 및 “Agent READY” 확인 내역
+- [x] 앱 Boot Sequence 5단계 [OK] 및 “Agent READY” 확인 내역
 - [ ] monitor.sh 실행 결과(프로세스/포트/리소스/경고) 내역
 - [ ] /var/log/agent-app/monitor.log 누적 기록 확인(최근 라인) 내역
 - [ ] crontab 매분 실행 등록 및 자동 실행 확인(1분 후 로그 증가) 내역
@@ -123,7 +123,23 @@ chown -R agent-admin:agent-core /var/log/agent-app
 chmod 770 /home/agent-admin/agent-app/upload_files
 chmod 770 /home/agent-admin/agent-app/api_keys
 chmod 770 /var/log/agent-app
-chmod 750 /home/agent-admin/agent-app/agent-app
+chmod +x /home/agent-admin/agent-app/agent_app
 
 su - agent-admin
+
+~/agent-app/agent_app
+>>> Starting Agent Boot Sequence...
+[1/5] Checking User Account               [OK]
+ ... Running as service user 'agent-admin' (uid=1001)
+[2/5] Verifying Environment Variables     [OK]
+ ... All required Envs correct
+[3/5] Checking Required Files             [OK]
+ ... Verified 'secret.key' with correct key string.
+[4/5] Checking Port Availability          [OK]
+ ... Port 15034 is available.
+[5/5] Verifying Log Permission            [OK]
+ ... Log directory is writable: /var/log/agent-app
+------------------------------------------------------------
+All Boot Checks Passed!
+Agent READY
 ```
