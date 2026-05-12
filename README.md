@@ -157,6 +157,19 @@ chmod 750 /home/agent-admin/agent-app/bin/monitor.sh
 service cron start
 
 su - agent-admin
+~/agent-app/agent_app
+
+pgrep -f "agent_app"
+5392
+5393
+
+ss -tln | grep :15034
+LISTEN 0      1            0.0.0.0:15034      0.0.0.0:*
+
+pkill -f agent_app
+/home/agent-admin/agent-app/bin/monitor.sh
+echo $?
+1
 
 crontab -e
 * * * * * /home/agent-admin/agent-app/bin/monitor.sh
