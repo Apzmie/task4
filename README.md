@@ -98,6 +98,8 @@ drwxrwx--- 1 root agent-core 0 May 11 06:39 /var/log/agent-app
 ## 5
 ```bash
 mkdir -p /home/agent-admin/agent-app/
+mkdir -p /home/agent-admin/agent-app/api_keys
+mkdir -p /home/agent-admin/agent-app/upload_files
 
 cat <<EOF > /etc/profile.d/agent_env.sh
 export AGENT_HOME=/home/agent-admin/agent-app
@@ -111,4 +113,17 @@ source /etc/profile.d/agent_env.sh
 
 echo $AGENT_PORT
 15034
+
+echo "agent_api_key_test" > $AGENT_KEY_PATH
+
+chown -R agent-admin:agent-common /home/agent-admin/agent-app
+chown -R agent-admin:agent-core /home/agent-admin/agent-app/api_keys
+chown -R agent-admin:agent-core /var/log/agent-app
+
+chmod 770 /home/agent-admin/agent-app/upload_files
+chmod 770 /home/agent-admin/agent-app/api_keys
+chmod 770 /var/log/agent-app
+chmod 750 /home/agent-admin/agent-app/agent-app
+
+su - agent-admin
 ```
