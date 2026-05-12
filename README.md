@@ -13,7 +13,7 @@
 ```bash
 docker run -d --name linux-mission -p 20022:20022 -p 15034:15034 ubuntu:22.04 sleep infinity
 docker exec -it linux-mission /bin/bash
-apt update && apt install -y nano ssh ufw systemctl iproute2 net-tools acl
+apt update && apt install -y nano ssh ufw systemctl iproute2 net-tools acl cron
 
 nano /etc/ssh/sshd_config
 Port 22 -> Port 20022, PermitRootLogin prohibit-password -> PermitRootLogin no
@@ -142,4 +142,28 @@ su - agent-admin
 ------------------------------------------------------------
 All Boot Checks Passed!
 Agent READY
+```
+
+## 6
+```bash
+mkdir -p /home/agent-admin/agent-app/bin
+
+cat << 'EOF' > /home/agent-admin/agent-app/bin/monitor.sh
+...
+EOF
+
+chown agent-dev:agent-core /home/agent-admin/agent-app/bin/monitor.sh
+chmod 750 /home/agent-admin/agent-app/bin/monitor.sh
+service cron start
+
+su - agent-admin
+
+crontab -e
+* * * * * /home/agent-admin/agent-app/bin/monitor.sh
+
+tail -f /var/log/agent-app/monitor.log
+[2026-05-12 16:08:01] PID:5095
+5096 CPU:0% MEM:5% DISK_USED:1%
+[2026-05-12 16:09:01] PID:5095
+5096 CPU:0% MEM:4% DISK_USED:1%
 ```
