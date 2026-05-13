@@ -5,9 +5,9 @@
 - [x] 계정/그룹(agent-admin/dev/test, agent-common/core) 생성 확인 내역
 - [x] 디렉토리 구조 및 권한(ACL 포함) 확인 내역
 - [x] 앱 Boot Sequence 5단계 [OK] 및 “Agent READY” 확인 내역
-- [ ] monitor.sh 실행 결과(프로세스/포트/리소스/경고) 내역
-- [ ] /var/log/agent-app/monitor.log 누적 기록 확인(최근 라인) 내역
-- [ ] crontab 매분 실행 등록 및 자동 실행 확인(1분 후 로그 증가) 내역
+- [x] monitor.sh 실행 결과(프로세스/포트/리소스/경고) 내역
+- [x] /var/log/agent-app/monitor.log 누적 기록 확인(최근 라인) 내역
+- [x] crontab 매분 실행 등록 및 자동 실행 확인(1분 후 로그 증가) 내역
 
 ## 1
 ```bash
@@ -170,6 +170,14 @@ pkill -f agent_app
 /home/agent-admin/agent-app/bin/monitor.sh
 echo $?
 1
+
+tail -f /var/log/agent-app/monitor.log
+[2026-05-13 13:55:19] [WARNING] Firewall is inactive
+[2026-05-13 13:55:19] PID:60,505,506 CPU:0% MEM:4% DISK_USED:1%
+[2026-05-13 13:55:35] [WARNING] Firewall is inactive
+[2026-05-13 13:55:35] PID:60,505,506 CPU:0% MEM:4% DISK_USED:1%
+[2026-05-13 13:56:01] [WARNING] Firewall is inactive
+[2026-05-13 13:56:01] PID:60,505,506 CPU:0% MEM:3% DISK_USED:1%
 
 crontab -e
 * * * * * /home/agent-admin/agent-app/bin/monitor.sh
