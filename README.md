@@ -68,29 +68,30 @@ uid=1002(agent-test) gid=1002(agent-test) groups=1002(agent-test),1003(agent-com
 
 ## 4
 ```bash
-mkdir -p /home/agent-admin/upload_files
-mkdir -p /home/agent-admin/api_keys
+mkdir -p /home/agent-admin/agent-app/
+mkdir -p /home/agent-admin/agent-app/api_keys
+mkdir -p /home/agent-admin/agent-app/upload_files
 mkdir -p /var/log/agent-app
 
-chgrp agent-common /home/agent-admin/upload_files
-chgrp agent-core /home/agent-admin/api_keys
+chgrp agent-common /home/agent-admin/agent-app/upload_files
+chgrp agent-core /home/agent-admin/agent-app/api_keys
 chgrp agent-core /var/log/agent-app
 
-chmod 770 /home/agent-admin/upload_files
-chmod 770 /home/agent-admin/api_keys
+chmod 770 /home/agent-admin/agent-app/upload_files
+chmod 770 /home/agent-admin/agent-app/api_keys
 chmod 770 /var/log/agent-app
 
-getfacl /home/agent-admin/upload_files
+getfacl /home/agent-admin/agent-app/upload_files
 getfacl: Removing leading '/' from absolute path names
-# file: home/agent-admin/upload_files
+# file: home/agent-admin/agent-app/upload_files
 # owner: root
 # group: agent-common
 user::rwx
 group::rwx
 other::---
 
-ls -ld /home/agent-admin/api_keys
-drwxrwx--- 1 root agent-core 0 May 11 06:39 /home/agent-admin/api_keys
+ls -ld /home/agent-admin/agent-app/api_keys
+drwxrwx--- 1 root agent-core 0 May 11 06:39 /home/agent-admin/agent-app/api_keys
 
 ls -ld /var/log/agent-app
 drwxrwx--- 1 root agent-core 0 May 11 06:39 /var/log/agent-app
