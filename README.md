@@ -11,7 +11,7 @@
 
 ## 1
 ```bash
-docker run -d --name linux-mission -p 20022:20022 -p 15034:15034 ubuntu:22.04 sleep infinity
+docker run -d --name linux-mission --privileged -p 20022:20022 -p 15034:15034 ubuntu:24.04 sleep infinity
 docker exec -it linux-mission /bin/bash
 apt update && apt install -y nano ssh ufw systemctl iproute2 net-tools acl cron
 
@@ -33,13 +33,14 @@ ufw allow 20022/tcp
 ufw allow 15034/tcp
 ufw enable
 ufw status
-(Permission denied)
+Status: active
 
-grep "###" -A 5 /etc/ufw/user.rules
-### tuple ### allow tcp 20022 0.0.0.0/0 any 0.0.0.0/0 in
--A ufw-user-input -p tcp --dport 20022 -j ACCEPT
-### tuple ### allow tcp 15034 0.0.0.0/0 any 0.0.0.0/0 in
--A ufw-user-input -p tcp --dport 15034 -j ACCEPT
+To                         Action      From
+--                         ------      ----
+20022/tcp                  ALLOW       Anywhere
+15034/tcp                  ALLOW       Anywhere
+20022/tcp (v6)             ALLOW       Anywhere (v6)
+15034/tcp (v6)             ALLOW       Anywhere (v6)
 ```
 
 ## 3
