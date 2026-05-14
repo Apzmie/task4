@@ -149,11 +149,11 @@ su - agent-admin
 ~/agent-app/agent_app
 
 pgrep -f "agent_app"
-5392
-5393
+214
+215
 
-ss -tln | grep :15034
-LISTEN 0      1            0.0.0.0:15034      0.0.0.0:*
+ss -tulnp | grep 15034
+tcp   LISTEN 0      1            0.0.0.0:15034      0.0.0.0:*    users:(("agent_app",pid=222,fd=4))
 
 pkill -f agent_app
 /home/agent-admin/agent-app/bin/monitor.sh
@@ -167,6 +167,8 @@ tail -f /var/log/agent-app/monitor.log
 [2026-05-13 13:55:35] PID:60,505,506 CPU:0% MEM:4% DISK_USED:1%
 [2026-05-13 13:56:01] [WARNING] Firewall is inactive
 [2026-05-13 13:56:01] PID:60,505,506 CPU:0% MEM:3% DISK_USED:1%
+
+service cron start
 
 crontab -e
 * * * * * /home/agent-admin/agent-app/bin/monitor.sh
