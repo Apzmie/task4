@@ -114,14 +114,9 @@ echo $AGENT_PORT
 
 echo "agent_api_key_test" > $AGENT_KEY_PATH
 
-chown -R agent-admin:agent-common /home/agent-admin/agent-app
-chown -R agent-admin:agent-core /home/agent-admin/agent-app/api_keys
-chown -R agent-admin:agent-core /var/log/agent-app
-
-chmod 770 /home/agent-admin/agent-app/upload_files
-chmod 770 /home/agent-admin/agent-app/api_keys
-chmod 770 /var/log/agent-app
-chmod +x /home/agent-admin/agent-app/agent_app
+chown -R agent-admin:agent-core /home/agent-admin/agent-app
+chgrp agent-common /home/agent-admin/agent-app/upload_files
+chmod 750 /home/agent-admin/agent-app/agent_app.py
 
 su - agent-admin
 
@@ -145,10 +140,6 @@ Agent READY
 ## 6
 ```bash
 mkdir -p /home/agent-admin/agent-app/bin
-
-cat << 'EOF' > /home/agent-admin/agent-app/bin/monitor.sh
-...
-EOF
 
 chown agent-dev:agent-core /home/agent-admin/agent-app/bin/monitor.sh
 chmod 750 /home/agent-admin/agent-app/bin/monitor.sh
