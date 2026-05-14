@@ -15,9 +15,8 @@ fi
 
 # 3. 방화벽 상태 점검
 UFW_STATUS=$(ufw status 2>&1)
-if [[ ! $UFW_STATUS == *"Status: active"* ]]; then
+if [[ "$UFW_STATUS" != *"Status: active"* ]]; then
     echo "[WARNING] Firewall is inactive"
-    echo "[$DATE] [WARNING] Firewall is inactive" >> $LOG_PATH
 fi
 
 # 4. 자원 수집
