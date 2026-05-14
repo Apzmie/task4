@@ -155,27 +155,35 @@ pgrep -f "agent_app"
 ss -tulnp | grep 15034
 tcp   LISTEN 0      1            0.0.0.0:15034      0.0.0.0:*    users:(("agent_app",pid=222,fd=4))
 
-pkill -f agent_app
 /home/agent-admin/agent-app/bin/monitor.sh
-echo $?
-1
+[WARNING] Firewall is inactive
 
+CPU_INT=${CPU_USAGE%.*}
+MEM_INT=${MEM_USAGE%.*}
+DISK_INT=${DISK_USED%.*}
+[ "$CPU_INT" -gt 1 ] && echo "[WARNING] CPU threshold exceeded ($CPU_USAGE%)"
+[ "$MEM_INT" -gt 1 ] && echo "[WARNING] MEM threshold exceeded ($MEM_USAGE%)"
+[ "$DISK_INT" -gt 1 ] && echo "[WARNING] DISK threshold exceeded ($DISK_USED%)"
+[WARNING] CPU threshold exceeded (3.3%)
+[WARNING] MEM threshold exceeded (5%)
+```
+
+## 7
+```bash
 tail -f /var/log/agent-app/monitor.log
-[2026-05-13 13:55:19] [WARNING] Firewall is inactive
-[2026-05-13 13:55:19] PID:60,505,506 CPU:0% MEM:4% DISK_USED:1%
-[2026-05-13 13:55:35] [WARNING] Firewall is inactive
-[2026-05-13 13:55:35] PID:60,505,506 CPU:0% MEM:4% DISK_USED:1%
-[2026-05-13 13:56:01] [WARNING] Firewall is inactive
-[2026-05-13 13:56:01] PID:60,505,506 CPU:0% MEM:3% DISK_USED:1%
+[2026-05-14 05:46:55] PID:454,455 CPU:0% MEM:4% DISK_USED:1%
+[2026-05-14 06:05:27] PID: CPU:3.3% MEM:5% DISK_USED:1%
+[2026-05-14 06:05:29] PID: CPU:3.3% MEM:5% DISK_USED:1%
 
-service cron start
+dd if=/dev/zero of=/var/log/agent-app/monitor.log bs=1M count=11
+/home/agent-admin/agent-app/bin/monitor.sh
 
 crontab -e
 * * * * * /home/agent-admin/agent-app/bin/monitor.sh
 
+service cron start
+
 tail -f /var/log/agent-app/monitor.log
-[2026-05-12 16:08:01] PID:5095
-5096 CPU:0% MEM:5% DISK_USED:1%
-[2026-05-12 16:09:01] PID:5095
-5096 CPU:0% MEM:4% DISK_USED:1%
+[2026-05-14 06:30:01] PID:12738,12739 CPU:0% MEM:4% DISK_USED:1%
+[2026-05-14 06:31:01] PID:12738,12739 CPU:1.6% MEM:4% DISK_USED:1%
 ```
