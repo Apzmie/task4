@@ -41,3 +41,23 @@ if [ -f "$LOG_PATH" ] && [ $(stat -c%s "$LOG_PATH") -gt 10485760 ]; then
     touch "$LOG_PATH"
     chmod 660 "$LOG_PATH"
 fi
+
+LOG_DIR="/var/log/agent-app"
+LOG_FILE="$LOG_DIR/monitor.log"
+
+# 로그 크기 확인 (bytes)
+if [ -f "$LOG_FILE" ] && [ $(stat -c%s "$LOG_FILE") -ge 10485760 ]; then
+
+    # 기존 로그 밀기 (10개 유지)
+    for i in 9 8 7 6 5 4 3 2 1; do
+        if [ -f "$LOG_FILE.$i" ]; then
+            mv "$LOG_FILE.$i" "$LOG_FILE.$((i+1))"
+        fi
+    done
+
+    # 현재 로그 -> .1
+    mv "$LOG_FILE" "$LOG_FILE.1"
+
+    # 새 로그 생성
+    touch "$LOG_FILE"
+fi
