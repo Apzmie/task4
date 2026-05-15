@@ -28,4 +28,7 @@ source ~/.bashrc
 
 # secret.key 생성
 echo "agent_api_key_test" > $AGENT_HOME/api_keys/secret.key
+
+chmod +x /home/mission-user/mission/monitor.sh
+/home/mission-user/mission/monitor.sh
 ```
