@@ -7,17 +7,18 @@ echo "시작 시간: $(date)" > $LOG_FILE
 echo "시간 | 프로세스ID | 메모리사용량(KB) | 메모리(%) | CPU(%)" >> $LOG_FILE
 echo "--------------------------------------------------------"
 
-while true; doㄴ
-    # agent-leak-app의 PID(프로세스 번호)를 찾습니다.
-    PID=$(pgrep -f agent-leak-app)
+while true; do
+    # agent-leak-app의 PID들을 가져와서 공백으로 구분된 한 줄로 만듭니다.
+    PIDS=$(pgrep -f agent-leak-app | tr '\n' ',' | sed 's/,$//')
 
-    if [ -n "$PID" ]; then
-        # ps 명령어로 메모리(rss), 메모리비율(pmem), CPU비율(pcpu)을 가져옵니다.
-        STATS=$(ps -p $PID -o rss,pmem,pcpu --no-headers)
+    if [ -n "$PIDS" ]; then
+        # 여러 PID를 콤마(,)로 연결하여 ps 명령어에 전달합니다.
         TIMESTAMP=$(date +%H:%M:%S)
         
-        # 화면과 로그 파일에 동시에 출력
-        echo "$TIMESTAMP | $PID | $STATS" | tee -a $LOG_FILE
+        # ps 결과가 여러 줄 나올 수 있으므로, 각 줄마다 앞에 시간을 붙여서 출력합니다.
+        ps -p "$PIDS" -o pid,rss,pmem,pcpu --no-headers | while read -r pid rss pmem pcpu; do
+            echo "$TIMESTAMP | PID:$pid | ${rss}KB | ${pmem}% | ${pcpu}%" | tee -a $LOG_FILE
+        done
     else
         echo "$(date +%H:%M:%S) | [경고] agent-leak-app이 실행 중이 아닙니다."
     fi
