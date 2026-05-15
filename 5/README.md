@@ -31,15 +31,25 @@ echo "agent_api_key_test" > $AGENT_HOME/api_keys/secret.key
 
 chmod +x /home/mission-user/mission/monitor.sh
 chmod +x /home/mission-user/mission/agent-leak-app
+
 /home/mission-user/mission/agent-leak-app
+2026-05-15 07:04:46,131 [INFO] [MemoryWorker] Current Heap: 250MB
+2026-05-15 07:04:49,171 [INFO] [MemoryWorker] Current Heap: 275MB
+2026-05-15 07:04:49,172 [CRITICAL] [MemoryGuard] Memory limit exceeded (275MB >= 256MB) / (Recommend Over 256MB)
+2026-05-15 07:04:49,172 [CRITICAL] [MemoryGuard] Self-terminating process 4135 to prevent system instability.
+
 /home/mission-user/mission/monitor.sh
---------------------------------------------------------
-06:32:37 | PID:3883 | 2212KB | 0.0% | 1.8%
-06:32:37 | PID:3884 | 72852KB | 0.4% | 2.0%
-06:32:38 | PID:3883 | 2212KB | 0.0% | 1.5%
-06:32:38 | PID:3884 | 72852KB | 0.4% | 1.7%
-06:32:39 | PID:3883 | 2212KB | 0.0% | 1.4%
-06:32:39 | PID:3884 | 98456KB | 0.5% | 2.0%
-06:32:40 | PID:3883 | 2212KB | 0.0% | 1.2%
-06:32:40 | PID:3884 | 98456KB | 0.5% | 1.8%
+07:04:45 | PID:4135 | 251956KB | 1.5% | 1.3%
+07:04:46 | PID:4134 | 2176KB | 0.0% | 0.2%
+07:04:46 | PID:4135 | 277560KB | 1.6% | 1.4%
+07:04:47 | PID:4134 | 2176KB | 0.0% | 0.2%
+
+sed -i 's/export MEMORY_LIMIT=.*/export MEMORY_LIMIT=512/g' /home/mission-user/.bashrc
+source ~/.bashrc
+
+2026-05-15 07:32:00,912 [INFO] [CpuWorker] Current Load: 50.93%
+2026-05-15 07:32:01,013 [CRITICAL] [CpuWorker] CPU Threshold Violated! (50.93%).
+현상: CPU_MAX_OCCUPY=70으로 설정하였으나, 실제 CPU 사용량이 약 50% 초반(50.93%)에 도달하면 내부 Watchdog에 의해 SIGTERM 강제 종료가 발생함.
+원인: 애플리케이션 내부에 CPU 임계치 마지노선이 50%로 하드코딩(Hard-coded) 되어 있어, 외부 환경변수 설정보다 프로그램 자체 안전 정책이 우선 적용되는 것으로 판단됨.
 ```
+
