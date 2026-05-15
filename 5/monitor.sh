@@ -1,14 +1,13 @@
 #!/bin/bash
 
 # 로그 파일 경로 설정
-LOG_FILE="$AGENT_LOG_DIR/monitor.log"
+LOG_FILE="/home/mission-user/mission/logs/monitor.log"
 
 echo "시작 시간: $(date)" > $LOG_FILE
 echo "시간 | 프로세스ID | 메모리사용량(KB) | 메모리(%) | CPU(%)" >> $LOG_FILE
 echo "--------------------------------------------------------"
 
-while true
- sentiments do
+while true; doㄴ
     # agent-leak-app의 PID(프로세스 번호)를 찾습니다.
     PID=$(pgrep -f agent-leak-app)
 
