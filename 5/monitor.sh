@@ -9,7 +9,7 @@ echo "--------------------------------------------------------"
 
 while true; do
     # agent-leak-app의 PID들을 가져와서 공백으로 구분된 한 줄로 만듭니다.
-    PIDS=$(pgrep -f agent-leak-app | tr '\n' ',' | sed 's/,$//')
+    PIDS=$(pgrep -f agent-app-leak | tr '\n' ',' | sed 's/,$//')
 
     if [ -n "$PIDS" ]; then
         # 여러 PID를 콤마(,)로 연결하여 ps 명령어에 전달합니다.
@@ -20,7 +20,7 @@ while true; do
             echo "$TIMESTAMP | PID:$pid | ${rss}KB | ${pmem}% | ${pcpu}%" | tee -a $LOG_FILE
         done
     else
-        echo "$(date +%H:%M:%S) | [경고] agent-leak-app이 실행 중이 아닙니다."
+        echo "$(date +%H:%M:%S) | [경고] agent-app-leak이 실행 중이 아닙니다."
     fi
 
     # 1초마다 반복
