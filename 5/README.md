@@ -11,7 +11,7 @@ mkdir -p /home/mission-user/mission/logs
 chown -R mission-user:mission-user /home/mission-user/mission
 su - mission-user
 
-# .bashrc에 환경변수 추가 (로그아웃 후 재접속해도 유지되도록)
+#.bashrc에 환경변수 추가 (로그아웃 후 재접속해도 유지되도록)
 cat <<EOF >> ~/.bashrc
 export AGENT_HOME=/home/mission-user/mission
 export AGENT_PORT=15034
@@ -23,10 +23,10 @@ export CPU_MAX_OCCUPY=70
 export MULTI_THREAD_ENABLE=true
 EOF
 
-# 환경변수 즉시 적용
+#환경변수 즉시 적용
 source ~/.bashrc
 
-# secret.key 생성
+#secret.key 생성
 echo "agent_api_key_test" > $AGENT_HOME/api_keys/secret.key
 
 chmod +x /home/mission-user/mission/monitor.sh
@@ -44,6 +44,7 @@ chmod +x /home/mission-user/mission/agent-app-leak
 07:04:46 | PID:4135 | 277560KB | 1.6% | 1.4%
 07:04:47 | PID:4134 | 2176KB | 0.0% | 0.2%
 
+#스트림 에디터(Stream Editor): 파일 내용을 한 줄씩 흘려보내며 중간에서 가로채 편집
 sed -i 's/export MEMORY_LIMIT=.*/export MEMORY_LIMIT=512/g' /home/mission-user/.bashrc
 source ~/.bashrc
 
