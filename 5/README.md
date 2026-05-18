@@ -50,7 +50,11 @@ source ~/.bashrc
 
 2026-05-15 07:32:00,912 [INFO] [CpuWorker] Current Load: 50.93%
 2026-05-15 07:32:01,013 [CRITICAL] [CpuWorker] CPU Threshold Violated! (50.93%).
-현상: CPU_MAX_OCCUPY=70으로 설정하였으나, 실제 CPU 사용량이 약 50% 초반(50.93%)에 도달하면 내부 Watchdog에 의해 SIGTERM 강제 종료가 발생함.
-원인: 애플리케이션 내부에 CPU 임계치 마지노선이 50%로 하드코딩(Hard-coded) 되어 있어, 외부 환경변수 설정보다 프로그램 자체 안전 정책이 우선 적용되는 것으로 판단됨.
+```
+
+```bash
+
+
+
 ```
 
