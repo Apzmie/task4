@@ -16,10 +16,10 @@ docker exec -it linux-mission /bin/bash
 apt update && apt install -y nano ssh ufw systemctl iproute2 net-tools acl cron
 
 nano /etc/ssh/sshd_config
-Port 22 -> Port 20022, PermitRootLogin prohibit-password -> PermitRootLogin no
+Port 22 -> Port 20022, PermitRootLogin prohibit-password -> PermitRootLogin no #루트 로그인 불가능
 service ssh start
 
-# Socket Statistics의 약자로, 현재 서버의 네트워크 연결 상태
+#Socket Statistics의 약자로, 현재 서버의 네트워크 연결 상태
 ss -tulnp | grep sshd
 tcp   LISTEN 0      128          0.0.0.0:20022      0.0.0.0:*    users:(("sshd",pid=3948,fd=3))
 tcp   LISTEN 0      128             [::]:20022         [::]:*    users:(("sshd",pid=3948,fd=4))
@@ -53,6 +53,7 @@ adduser agent-test
 groupadd agent-common
 groupadd agent-core
 
+#user modify, appendGroup
 usermod -aG agent-common agent-admin
 usermod -aG agent-common agent-dev
 usermod -aG agent-common agent-test
@@ -82,6 +83,7 @@ chmod 770 /home/agent-admin/agent-app/upload_files
 chmod 770 /home/agent-admin/agent-app/api_keys
 chmod 770 /var/log/agent-app
 
+#get file access control list
 getfacl /home/agent-admin/agent-app/upload_files
 getfacl: Removing leading '/' from absolute path names
 # file: home/agent-admin/agent-app/upload_files
@@ -91,6 +93,7 @@ user::rwx
 group::rwx
 other::---
 
+#list long directory
 ls -ld /home/agent-admin/agent-app/api_keys
 drwxrwx--- 1 root agent-core 0 May 11 06:39 /home/agent-admin/agent-app/api_keys
 
@@ -115,6 +118,7 @@ echo $AGENT_PORT
 
 echo "agent_api_key_test" > $AGENT_KEY_PATH
 
+#동시부여, 하위 폴더/파일, 소유자 우선순위
 chown -R agent-admin:agent-core /home/agent-admin/agent-app
 chgrp agent-common /home/agent-admin/agent-app/upload_files
 chmod 750 /home/agent-admin/agent-app/agent_app.py
@@ -149,6 +153,7 @@ service cron start
 su - agent-admin
 ~/agent-app/agent_app
 
+#프로세스 id
 pgrep -f "agent_app"
 214
 215
@@ -160,6 +165,7 @@ ufw disable
 /home/agent-admin/agent-app/bin/monitor.sh
 [WARNING] Firewall is inactive
 
+#1보다 높으면
 CPU_INT=${CPU_USAGE%.*}
 MEM_INT=${MEM_USAGE%.*}
 DISK_INT=${DISK_USED%.*}
@@ -172,6 +178,7 @@ DISK_INT=${DISK_USED%.*}
 
 ## 7
 ```bash
+#실시간
 tail -f /var/log/agent-app/monitor.log
 [2026-05-14 05:46:55] PID:454,455 CPU:0% MEM:4% DISK_USED:1%
 [2026-05-14 06:05:27] PID: CPU:3.3% MEM:5% DISK_USED:1%
