@@ -19,6 +19,7 @@ nano /etc/ssh/sshd_config
 Port 22 -> Port 20022, PermitRootLogin prohibit-password -> PermitRootLogin no
 service ssh start
 
+# Socket Statistics의 약자로, 현재 서버의 네트워크 연결 상태
 ss -tulnp | grep sshd
 tcp   LISTEN 0      128          0.0.0.0:20022      0.0.0.0:*    users:(("sshd",pid=3948,fd=3))
 tcp   LISTEN 0      128             [::]:20022         [::]:*    users:(("sshd",pid=3948,fd=4))
@@ -155,6 +156,7 @@ pgrep -f "agent_app"
 ss -tulnp | grep 15034
 tcp   LISTEN 0      1            0.0.0.0:15034      0.0.0.0:*    users:(("agent_app",pid=222,fd=4))
 
+ufw disable
 /home/agent-admin/agent-app/bin/monitor.sh
 [WARNING] Firewall is inactive
 
@@ -175,9 +177,11 @@ tail -f /var/log/agent-app/monitor.log
 [2026-05-14 06:05:27] PID: CPU:3.3% MEM:5% DISK_USED:1%
 [2026-05-14 06:05:29] PID: CPU:3.3% MEM:5% DISK_USED:1%
 
+# monitor.log 파일 내용 지우고 11MB 빈 파일로 덮어쓰기
 dd if=/dev/zero of=/var/log/agent-app/monitor.log bs=1M count=11
 /home/agent-admin/agent-app/bin/monitor.sh
 
+# 별 5개면 "매월 매일 매시 매분마다 항상" 실행하라는 뜻
 crontab -e
 * * * * * /home/agent-admin/agent-app/bin/monitor.sh
 
