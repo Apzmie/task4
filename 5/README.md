@@ -30,9 +30,9 @@ source ~/.bashrc
 echo "agent_api_key_test" > $AGENT_HOME/api_keys/secret.key
 
 chmod +x /home/mission-user/mission/monitor.sh
-chmod +x /home/mission-user/mission/agent-leak-app
+chmod +x /home/mission-user/mission/agent-app-leak
 
-/home/mission-user/mission/agent-leak-app
+/home/mission-user/mission/agent-app-leak
 2026-05-15 07:04:46,131 [INFO] [MemoryWorker] Current Heap: 250MB
 2026-05-15 07:04:49,171 [INFO] [MemoryWorker] Current Heap: 275MB
 2026-05-15 07:04:49,172 [CRITICAL] [MemoryGuard] Memory limit exceeded (275MB >= 256MB) / (Recommend Over 256MB)
